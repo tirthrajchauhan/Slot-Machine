@@ -13,6 +13,7 @@
 		C5CBC03721F6E2EC001F8CE2 /* Slot_Machine.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C5CBC03521F6E2EC001F8CE2 /* Slot_Machine.xcdatamodeld */; };
 		C5CBC03921F6E2ED001F8CE2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5CBC03821F6E2ED001F8CE2 /* Assets.xcassets */; };
 		C5CBC03C21F6E2ED001F8CE2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C5CBC03A21F6E2ED001F8CE2 /* LaunchScreen.storyboard */; };
+		C5CBC04421F6E7EA001F8CE2 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CBC04321F6E7EA001F8CE2 /* background.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		C5CBC03821F6E2ED001F8CE2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C5CBC03B21F6E2ED001F8CE2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C5CBC03D21F6E2ED001F8CE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C5CBC04321F6E7EA001F8CE2 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = background.png; path = "../../../../Downloads/COMP397-SlotMachineDemo-master/COMP397-SlotMachineDemo/Assets/images/background.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 				C5CBC02E21F6E2EC001F8CE2 /* AppDelegate.swift */,
 				C5CBC03021F6E2EC001F8CE2 /* ViewController.swift */,
 				C5CBC03221F6E2EC001F8CE2 /* Main.storyboard */,
+				C5CBC04321F6E7EA001F8CE2 /* background.png */,
 				C5CBC03821F6E2ED001F8CE2 /* Assets.xcassets */,
 				C5CBC03A21F6E2ED001F8CE2 /* LaunchScreen.storyboard */,
 				C5CBC03D21F6E2ED001F8CE2 /* Info.plist */,
@@ -126,6 +129,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5CBC03C21F6E2ED001F8CE2 /* LaunchScreen.storyboard in Resources */,
+				C5CBC04421F6E7EA001F8CE2 /* background.png in Resources */,
 				C5CBC03921F6E2ED001F8CE2 /* Assets.xcassets in Resources */,
 				C5CBC03421F6E2EC001F8CE2 /* Main.storyboard in Resources */,
 			);
