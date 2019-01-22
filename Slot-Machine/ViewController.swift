@@ -12,11 +12,13 @@ class ViewController: UIViewController, UIPickerViewDelegate,UIPickerViewDataSou
 
     @IBOutlet weak var slotMachine: UIPickerView!
     @IBOutlet weak var lblwin: UILabel!
-   
+    @IBAction func quitButton(_ sender: UIButton) {
+        exit(0)
+    }
+    
     struct slotComp{
         var image: UIImage!
         var color: String
-        
     }
     var images = [slotComp]()
     var counter = 0
@@ -28,7 +30,7 @@ class ViewController: UIViewController, UIPickerViewDelegate,UIPickerViewDataSou
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        lblwin.isHidden = true
+       lblwin.isHidden = true
         
     let img1  = slotComp(image: UIImage(named: "Kiwi"), color: "green")
         let img2 = slotComp(image: UIImage(named: "Apple"), color: "red")
@@ -77,8 +79,8 @@ class ViewController: UIViewController, UIPickerViewDelegate,UIPickerViewDataSou
         case 0:
             comp1 = images[row].color
             break
-            case 1:
-                comp2 = images[row].color
+        case 1:
+            comp2 = images[row].color
             break
         case 2:
             comp3 = images[row].color
@@ -88,6 +90,11 @@ class ViewController: UIViewController, UIPickerViewDelegate,UIPickerViewDataSou
         }
         if comp1 == comp2 && comp2 == comp3{
             lblwin.isHidden = false
+            self.lblwin.text = "You Win!"
+        }
+        else{
+            lblwin.isHidden = false
+            self.lblwin.text = "Try again!"
         }
     }
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
