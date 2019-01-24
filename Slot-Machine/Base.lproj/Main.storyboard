@@ -101,6 +101,7 @@
                         <outlet property="currentBetLabel" destination="Dlj-Ov-bSi" id="9ce-qk-1N7"/>
                         <outlet property="lblwin" destination="8ib-Gy-72B" id="z2d-EP-ODZ"/>
                         <outlet property="slotMachine" destination="KiU-iE-I3Z" id="dda-QW-gqW"/>
+                        <outlet property="spinButton" destination="3yP-Md-SIr" id="rmT-2u-SER"/>
                         <outlet property="stepper" destination="10r-mE-Y8U" id="3Zn-7d-zrG"/>
                         <outlet property="winningAmountLabel" destination="unk-hB-szL" id="feK-ZG-Yxw"/>
                     </connections>

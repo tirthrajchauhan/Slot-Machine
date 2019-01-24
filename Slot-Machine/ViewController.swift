@@ -20,7 +20,7 @@ class ViewController: UIViewController, UIPickerViewDelegate,UIPickerViewDataSou
     @IBOutlet weak var availableCreditLabel: UILabel!
     @IBOutlet weak var currentBetLabel: UILabel!
     
-    var initialCredit: Int = 500
+    var initialCredit: Int = 10
     var currentBet: Int = 0
     
     @IBOutlet weak var stepper: UIStepper!
@@ -30,21 +30,35 @@ class ViewController: UIViewController, UIPickerViewDelegate,UIPickerViewDataSou
     
     var remainingCredit: Int = 0
     
+    
+    @IBOutlet weak var spinButton: UIButton!
+    
     //stepper to place bet
     @IBAction func placeBetStepper(_ sender: UIStepper)
     {
-        currentBet = Int((sender.value))
-        //print(cBet)
-        //credit = (credit - currentBet)
-        self.currentBetLabel.text = String(currentBet)
         
-        let c = self.updateCredit(currentBet: currentBet)
-        
-        self.availableCreditLabel.text = String(c)
-        //self.availableCreditLabel.text = String(credit)
-        
-        self.winningAmountLabel.text = ""
-        lblwin.isHidden = true
+            currentBet = Int((sender.value))
+            //print(cBet)
+            //credit = (credit - currentBet)
+            self.currentBetLabel.text = String(currentBet)
+            
+            let c = self.updateCredit(currentBet: currentBet)
+            
+            self.availableCreditLabel.text = String(c)
+            //self.availableCreditLabel.text = String(credit)
+       
+            self.winningAmountLabel.text = ""
+            lblwin.isHidden = true
+       
+        //To prevent user to place bet when user has no credit
+        if c <= 0
+        {
+            let alert = UIAlertController(title: "Out of credit!", message: "You don't have enough credit to bet!", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Got it!", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            
+            stepper.isEnabled = false
+        }
     }
     
     //updating available credit after every bet
@@ -60,6 +74,7 @@ class ViewController: UIViewController, UIPickerViewDelegate,UIPickerViewDataSou
         initialCredit = 500
         currentBet = 0
         stepper.value = 0
+        stepper.isEnabled = true
         self.availableCreditLabel.text = String(initialCredit)
         self.currentBetLabel.text = String(currentBet)
     }
@@ -83,38 +98,58 @@ class ViewController: UIViewController, UIPickerViewDelegate,UIPickerViewDataSou
         self.availableCreditLabel.text = String(initialCredit)
         self.currentBetLabel.text = String(currentBet)
         
-    let img1  = slotComp(image: UIImage(named: "Kiwi"), color: "green")
+        let img1  = slotComp(image: UIImage(named: "Kiwi"), color: "green")
         let img2 = slotComp(image: UIImage(named: "Apple"), color: "red")
-    let img3 = slotComp(image: UIImage(named: "Grape"), color: "blue")
+        let img3 = slotComp(image: UIImage(named: "Grape"), color: "blue")
         
- images = [img1, img2, img3,img2, img2, img3,img1, img2, img3,img1,
-           img2, img1,img1, img2, img3,img3, img2, img3,img1, img1, img3,
-           img3, img2,img3, img1, img3,img3, img1, img2,img1, img1, img2,
-           img3, img2,img1, img3, img3,img2, img3, img1,img2, img3, img1,
-           img2, img1,img1, img2, img3,img1, img3, img3,img1, img2, img3,
-           img1,img1, img3, img1, img1, img3]
+        images = [img1, img2, img3,img2, img2, img3,img1, img2, img3,img1,
+                   img2, img1,img1, img2, img3,img3, img2, img3,img1, img1, img3,
+                   img3, img2,img3, img1, img3,img3, img1, img2,img1, img1, img2,
+                   img3, img2,img1, img3, img3,img2, img3, img1,img2, img3, img1,
+                   img2, img1,img1, img2, img3,img1, img3, img3,img1, img2, img3,
+                   img1,img1, img3, img1, img1, img3]
     
         slotMachine.dataSource = self
         slotMachine.delegate = self
         
         srandom(UInt32(time(nil)))
+        
+        
     }
     
     @IBAction func spin(_ sender: Any) {
        
-        lblwin.isHidden = true
-        comp1 = ""
-        comp2 = ""
-        comp3 = ""
-        counter = 0
-       
-        randomSpin()
-        randomSpin()
-        randomSpin()
+        //To prevent user to bet with 0 credit
+        if (currentBet == 0)
+        {
+            //spinButton.isEnabled = false
+            let alert = UIAlertController(title: "Can't place $0 bet", message: "Please choose amount to bet.", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Got it!", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+        else
+        {
+            lblwin.isHidden = true
+            comp1 = ""
+            comp2 = ""
+            comp3 = ""
+            counter = 0
+            
+            randomSpin()
+            randomSpin()
+            randomSpin()
+            
+            //updating remaining credit after every spin
+            updateCurrentBet()
+        }
+    }
     
-    
-        //updating remaining credit after every spin
-        updateCurrentBet()
+    func validateSpin()
+    {
+        if (currentBet == 0)
+        {
+            spinButton.isEnabled = false
+        }
     }
     
     func randomSpin(){
@@ -151,6 +186,8 @@ class ViewController: UIViewController, UIPickerViewDelegate,UIPickerViewDataSou
             winningAmount = (currentBet * 2)
             self.winningAmountLabel.text = String(winningAmount)
             print("winningAmt ",winningAmount)
+            
+            stepper.isEnabled = true
             
             self.updateRemainingCredit(winningAmount: winningAmount)
         }
