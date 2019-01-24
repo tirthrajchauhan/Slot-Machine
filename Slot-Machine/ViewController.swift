@@ -38,14 +38,18 @@ class ViewController: UIViewController, UIPickerViewDelegate,UIPickerViewDataSou
         //credit = (credit - currentBet)
         self.currentBetLabel.text = String(currentBet)
         
-       initialCredit = self.updateCredit(currentBet: currentBet)
+        let c = self.updateCredit(currentBet: currentBet)
         
-        self.availableCreditLabel.text = String(initialCredit)
+        self.availableCreditLabel.text = String(c)
         //self.availableCreditLabel.text = String(credit)
+        
+        self.winningAmountLabel.text = ""
+        lblwin.isHidden = true
     }
     
     //updating available credit after every bet
-    func updateCredit(currentBet: Int) -> Int {
+    func updateCredit(currentBet: Int) -> Int
+    {
         remainingCredit = (initialCredit - currentBet)
         return remainingCredit
     }
@@ -108,6 +112,9 @@ class ViewController: UIViewController, UIPickerViewDelegate,UIPickerViewDataSou
         randomSpin()
         randomSpin()
     
+    
+        //updating remaining credit after every spin
+        updateCurrentBet()
     }
     
     func randomSpin(){
@@ -135,37 +142,47 @@ class ViewController: UIViewController, UIPickerViewDelegate,UIPickerViewDataSou
         default:
             break
         }
-        if comp1 == comp2 && comp2 == comp3{
+        if comp1 == comp2 && comp2 == comp3
+        {
             lblwin.isHidden = false
             self.lblwin.text = "You Win!"
             
-            print(currentBet)
+            //calculating winning amount after every win
             winningAmount = (currentBet * 2)
             self.winningAmountLabel.text = String(winningAmount)
+            print("winningAmt ",winningAmount)
             
             self.updateRemainingCredit(winningAmount: winningAmount)
         }
-        else{
+        else
+        {
             lblwin.isHidden = false
             self.lblwin.text = "Try again!"
-            //currentBet = 0
-            //stepper.value = 0
             self.currentBetLabel.text = String(currentBet)
             
-            winningAmount = (currentBet * 0)
+            
+            winningAmount = 0
             self.winningAmountLabel.text = String(winningAmount)
+            
+            // update remaining credit after every lose
+            self.updateRemainingCredit(winningAmount: winningAmount)
         }
     }
     
+    //function to resetting current bet after every bet
     func updateCurrentBet()
     {
         currentBet = 0
+        stepper.value = 0
+        self.currentBetLabel.text = String(currentBet)
     }
     
+    //function to update available credit after every spin
     func updateRemainingCredit(winningAmount:Int)
     {
             remainingCredit += winningAmount
             print(remainingCredit)
+            initialCredit = remainingCredit
             self.availableCreditLabel.text = String(remainingCredit)
     }
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
