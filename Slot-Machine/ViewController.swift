@@ -20,36 +20,43 @@ class ViewController: UIViewController, UIPickerViewDelegate,UIPickerViewDataSou
     @IBOutlet weak var availableCreditLabel: UILabel!
     @IBOutlet weak var currentBetLabel: UILabel!
     
+    var initialCredit: Int = 500
+    var currentBet: Int = 0
+    
+    @IBOutlet weak var stepper: UIStepper!
+    
+    var winningAmount:Int = 0
+    @IBOutlet weak var winningAmountLabel: UILabel!
     
     var remainingCredit: Int = 0
     
     //stepper to place bet
     @IBAction func placeBetStepper(_ sender: UIStepper)
     {
-        currentBet = Int((sender.value + 4))
+        currentBet = Int((sender.value))
         //print(cBet)
         //credit = (credit - currentBet)
         self.currentBetLabel.text = String(currentBet)
         
-        let c = self.updateCredit(currentBet: currentBet)
+       initialCredit = self.updateCredit(currentBet: currentBet)
         
-        self.availableCreditLabel.text = String(c)
+        self.availableCreditLabel.text = String(initialCredit)
         //self.availableCreditLabel.text = String(credit)
     }
     
     //updating available credit after every bet
     func updateCredit(currentBet: Int) -> Int {
-        remainingCredit = (credit - currentBet)
+        remainingCredit = (initialCredit - currentBet)
         return remainingCredit
     }
     
     //resetting the credit and bet data to start a new game
     @IBAction func resetButton(_ sender: UIButton)
     {
-        credit = 500
+        initialCredit = 500
         currentBet = 0
-        
-        self.availableCreditLabel.text = String(credit)
+        stepper.value = 0
+        self.availableCreditLabel.text = String(initialCredit)
         self.currentBetLabel.text = String(currentBet)
     }
     
@@ -64,19 +71,12 @@ class ViewController: UIViewController, UIPickerViewDelegate,UIPickerViewDataSou
     var comp2 = ""
     var comp3 = ""
     var timer = Timer()
-    var credit: Int = 500
-    var currentBet: Int = 0
-    
-    @IBOutlet weak var stepper: UIStepper!
-    
-    var winningAmount:Int = 0
-    @IBOutlet weak var winningAmountLabel: UILabel!
-    
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         
        lblwin.isHidden = true
-        self.availableCreditLabel.text = String(credit)
+        self.availableCreditLabel.text = String(initialCredit)
         self.currentBetLabel.text = String(currentBet)
         
     let img1  = slotComp(image: UIImage(named: "Kiwi"), color: "green")
@@ -139,20 +139,34 @@ class ViewController: UIViewController, UIPickerViewDelegate,UIPickerViewDataSou
             lblwin.isHidden = false
             self.lblwin.text = "You Win!"
             
-            var c = Int(self.currentBetLabel.text!)
-            winningAmount = (c! * 2)
+            print(currentBet)
+            winningAmount = (currentBet * 2)
             self.winningAmountLabel.text = String(winningAmount)
+            
+            self.updateRemainingCredit(winningAmount: winningAmount)
         }
         else{
             lblwin.isHidden = false
             self.lblwin.text = "Try again!"
-            currentBet = 0
-            stepper.value = 0
+            //currentBet = 0
+            //stepper.value = 0
             self.currentBetLabel.text = String(currentBet)
             
             winningAmount = (currentBet * 0)
             self.winningAmountLabel.text = String(winningAmount)
         }
+    }
+    
+    func updateCurrentBet()
+    {
+        currentBet = 0
+    }
+    
+    func updateRemainingCredit(winningAmount:Int)
+    {
+            remainingCredit += winningAmount
+            print(remainingCredit)
+            self.availableCreditLabel.text = String(remainingCredit)
     }
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return images.count
