@@ -16,6 +16,44 @@ class ViewController: UIViewController, UIPickerViewDelegate,UIPickerViewDataSou
         exit(0)
     }
     
+    
+    @IBOutlet weak var availableCreditLabel: UILabel!
+    @IBOutlet weak var currentBetLabel: UILabel!
+    
+    
+    var remainingCredit: Int = 0
+    
+    //stepper to place bet
+    @IBAction func placeBetStepper(_ sender: UIStepper)
+    {
+        currentBet = Int((sender.value + 4))
+        //print(cBet)
+        //credit = (credit - currentBet)
+        self.currentBetLabel.text = String(currentBet)
+        
+        let c = self.updateCredit(currentBet: currentBet)
+        
+        self.availableCreditLabel.text = String(c)
+        //self.availableCreditLabel.text = String(credit)
+    }
+    
+    //updating available credit after every bet
+    func updateCredit(currentBet: Int) -> Int {
+        remainingCredit = (credit - currentBet)
+        return remainingCredit
+    }
+    
+    //resetting the credit and bet data to start a new game
+    @IBAction func resetButton(_ sender: UIButton)
+    {
+        credit = 500
+        currentBet = 0
+        
+        self.availableCreditLabel.text = String(credit)
+        self.currentBetLabel.text = String(currentBet)
+    }
+    
+    
     struct slotComp{
         var image: UIImage!
         var color: String
@@ -26,11 +64,20 @@ class ViewController: UIViewController, UIPickerViewDelegate,UIPickerViewDataSou
     var comp2 = ""
     var comp3 = ""
     var timer = Timer()
+    var credit: Int = 500
+    var currentBet: Int = 0
+    
+    @IBOutlet weak var stepper: UIStepper!
+    
+    var winningAmount:Int = 0
+    @IBOutlet weak var winningAmountLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
        lblwin.isHidden = true
+        self.availableCreditLabel.text = String(credit)
+        self.currentBetLabel.text = String(currentBet)
         
     let img1  = slotComp(image: UIImage(named: "Kiwi"), color: "green")
         let img2 = slotComp(image: UIImage(named: "Apple"), color: "red")
@@ -48,7 +95,7 @@ class ViewController: UIViewController, UIPickerViewDelegate,UIPickerViewDataSou
         
         srandom(UInt32(time(nil)))
     }
-
+    
     @IBAction func spin(_ sender: Any) {
        
         lblwin.isHidden = true
@@ -91,10 +138,20 @@ class ViewController: UIViewController, UIPickerViewDelegate,UIPickerViewDataSou
         if comp1 == comp2 && comp2 == comp3{
             lblwin.isHidden = false
             self.lblwin.text = "You Win!"
+            
+            var c = Int(self.currentBetLabel.text!)
+            winningAmount = (c! * 2)
+            self.winningAmountLabel.text = String(winningAmount)
         }
         else{
             lblwin.isHidden = false
             self.lblwin.text = "Try again!"
+            currentBet = 0
+            stepper.value = 0
+            self.currentBetLabel.text = String(currentBet)
+            
+            winningAmount = (currentBet * 0)
+            self.winningAmountLabel.text = String(winningAmount)
         }
     }
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
